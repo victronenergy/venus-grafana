@@ -12,19 +12,19 @@ The following dashboards are included by default.
 
 Welcome dashboard sumarizing battery state of charge, and DC/AC PV production. All charts are broken down by installation in case you are visualizing multiple Venus OS installations at the same time.
 
-![Welcome](zzz-welcome.png)
+![Welcome](./zzz-welcome.png)
 
 Battery dashboard sumarizes state of charge, min/max cell voltage, and min max cell temperature for selected Venus OS installation.
 
-![Battery](zzz-battery.png)
+![Battery](./zzz-battery.png)
 
 DC PV dashboard sumarizes MPPT solarcharger output power, voltate, and operation mode for selected Venus OS installation. Charts are broken down by instance in case your system contains multiple MPPT Solar Chargers.
 
-![DC PV](zzz-dcpv.png)
+![DC PV](./zzz-dcpv.png)
 
 AC PV dashboard sumarizes AC coupled output power, and power limit for selected Venus OS installation. Charts are broken down by instance in case your system contains multiple AC coupled inverters.
 
-![AC PV](zzz-acpv.png)
+![AC PV](./zzz-acpv.png)
 
 ## Configuration
 
