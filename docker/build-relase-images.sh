@@ -1,5 +1,3 @@
-#!/bin/bash
-
 PLATFORMS="linux/armhf,linux/arm64,linux/amd64"
 
 VER=$1

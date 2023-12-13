@@ -1,5 +1,3 @@
-#!/bin/bash
-
 VER=develop
 
 OWNER=${OWNER:="victronenergy"}
