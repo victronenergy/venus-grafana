@@ -47,11 +47,54 @@ All of these can run separately, or together. Natively on a Mac, Windows, Raspbe
 ## 3. Quick Start
 
 1. Download [Docker Desktop](https://www.docker.com/products/docker-desktop/) for your platform.
-2. Download the ready made [examples/docker-compose.yaml](./examples/docker-compose.yaml) file and use `docker compose up` to start all containers.
+2. Download the ready made [examples/docker-compose.yaml](./examples/docker-compose.yaml) file and use the `docker compose up` to start all containers (see below for more details).
 3. Open (https://localhost:8088) in your browser and configure what Venus devices to monitor.
 4. Open (https://localhost:3000) in your browser to play with Grafana.
 
-## 4. Slow Start
+### 3.1 Starting / Stopping
+
+This command downloads necessary docker images, creates docker volumes to store data, creates docker containers for Influx DB, Grafana, and Venus Influx Loader and starts them.
+
+
+```
+$ docker compose up
+```
+
+This command stops all docker containers and leaves the docker volumes in place so you do not loose any data.
+
+```
+$ docker compose stop
+```
+
+WARNING: This command stops all docker containers, but them removes the containers and the volumes with all collected data and all your customizations.
+
+```
+$ docker compose down
+```
+
+### 3.2 Updating / Restarting
+
+If you specify a floating docker image tag like `:latest`, `:develop`, or `:main` in your `docker-compose.yaml` file, the following commands allow you to update and restart your setup.
+
+This command fetches latest versions of required docker images.
+
+```
+$ docker compose pull
+```
+
+This command re-creates and re-starts containers for which new versions of docker images are available.
+
+```
+$ docker compose up
+```
+
+### 3.3 Automatic Restart
+
+Note that the [examples/docker-compose.yaml](./examples/docker-compose.yaml) file does not specify a `restart` policy for any of the containers. This means that when any of the containers crashes, or when your host system is restarted, no containers will get restarted automatically. This is useful for basic experimentation.
+
+If you plan to deploy your Venus Grafana into production, it is recommended to configure a `restart: always` [container restart policy](https://docs.docker.com/config/containers/start-containers-automatically/) for all of the containers.
+
+## 4. Venus Grafana Deployment Details
 
 Examining [examples/docker-compose.yaml](./examples/docker-compose.yaml) we can find that it defines the following components:
 
@@ -82,7 +125,7 @@ services:
      - INFLUXDB_HTTP_LOG_ENABLED=false
 ```
 
-### 4.2 Venus Influx Loader
+### 4.3 Venus Influx Loader
 
 Creates Venus Influx Loader container exposing TCP port 8088 and storing its configuration in `config-storage`.
 
@@ -96,7 +139,7 @@ services:
      - "config-storage:/config"
 ```
 
-### 4.2 Venus Grafana
+### 4.4 Venus Grafana
 
 Creates Venus Grafana container exposing TCP port 3000 and storing its configuration in `grafana-storage`.
 
@@ -123,51 +166,51 @@ Docker volumes are easy to create but notoriously complicated to work with. They
 
 It may be easier to use [bind mounts](https://docs.docker.com/storage/bind-mounts/) to make host system directories available to docker containers. That way you can expose USB stick to the containers and still read it from your host sytem. But bind mounts have problems with permissions that need to be setup correctly.
 
-# Included Dashboards
+## 5. Included Dashboards
 
 The following dashboards are included by default.
 
-## 1. Systems Overview
+### 5.1 Systems Overview
 
 Welcome dashboard sumarizing battery state of charge, and DC/AC PV production. All charts are broken down by installation in case you are visualizing multiple Venus OS installations at the same time.
 
 ![Welcome](./doc/img/zzz-welcome.png)
 
-## 2. Battery
+### 5.2 Battery
 
 Battery dashboard sumarizes state of charge, min/max cell voltage, and min max cell temperature for selected Venus OS installation.
 
 ![Battery](./doc/img/zzz-battery.png)
 
-## 3. DC PV
+### 5.3 DC PV
 
 DC PV dashboard sumarizes MPPT solarcharger output power, voltate, and operation mode for selected Venus OS installation. Charts are broken down by instance in case your system contains multiple MPPT Solar Chargers.
 
 ![DC PV](./doc/img/zzz-dcpv.png)
 
-## 4. AC PV
+### 5.4 AC PV
 
 AC PV dashboard sumarizes AC coupled output power, and power limit for selected Venus OS installation. Charts are broken down by instance in case your system contains multiple AC coupled inverters.
 
 ![AC PV](./doc/img/zzz-acpv.png)
 
-# Creating Your Own Dashboards
+## 6. Creating Your Own Dashboards
 
 Once you get familiar with Grafana, you will want to start exploring the measurements reported by Venus OS and to create your own visualizations. There is a great guide outlining [How to create new Venus Grafana Panel](./doc/GRAFANA-NEW-PANEL.md).
 
 
-# Distribution
+## 7. Distribution
 
 Venus Grafana is distributed as:
 
 - Docker Image: https://hub.docker.com/r/victronenergy/venus-grafana
 - TODO: Venus Grafana Dashboards at https://grafana.com/grafana/dashboards/
 
-# Development
+## 8. Development
 
 This repository contains source code to build Venus Grafana Docker Image that includes preconfigured data sources and dashboards.
 
-## 1. Docker Image Configuration
+### 8.1 Docker Image Configuration
 
 The `venus-grafana` docker image can be configured using the following environment variables:
 
@@ -184,24 +227,24 @@ The `venus-grafana` docker image can be configured using the following environme
   Example: `VIL_GRAFANA_API_URL=http://localhost:8088/grafana-api`
 
 
-## 2. Docker Image Structure
+### 8.2 Docker Image Structure
 
 The files located under `grafana/provisioning` contain a `yaml` and `json` configuration files that can be used to provision fresh Grafana installation using the [Grafana Provisioning](https://grafana.com/docs/grafana/latest/administration/provisioning/).
 
 The `grafana/provisioning` directory needs to be copied over to `/etc/grafana/provisioning` directory on the system before starting up Grafana.
 
-## 3. Building Venus Grafana Docker Image
+### 8.3 Building Venus Grafana Docker Image
 
 Venus Grafana docker image provides an easy way to spin up a preconfigured and ready to be used grafana instance suitable for local development.
 
-### Build Venus Grafana docker image locally
+#### Build Venus Grafana docker image locally
 
 ```
 $ export OWNER="martin"
 $ (cd docker && ./build-dev-image.sh)
 ```
 
-### Run Venus Grafana docker image locally
+#### Run Venus Grafana docker image locally
 
 ```
 $ export OWNER="martin"
@@ -210,7 +253,7 @@ $ (cd docker && ./run-dev-image.sh)
 
 After that you can access the local Grafana instance via [http://localhost:3000]
 
-## 4. Adding New Dashboards
+### 8.4 Adding New Dashboards
 
 New Grafana Dashboards that you create via Grafana Interface will be stored in a SQLite database inside the docker container in `/var/lib/grafana`. These modifications will get lost when the container is removed and recreated, unless you mount the `/var/lib/grafana` directory to a docker volume.
 
@@ -226,7 +269,7 @@ The process of creating new dashboards looks like this:
 6. Stop Grafana, Rebuild dev image, and repeat from step 1.
 
 
-## 5. Changing the Home Dashboard
+### 8.5 Changing the Home Dashboard
 
 Grafana will by default display a home dashboard specified via `GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH`. For the `venus-grafana` docker image this variable is configured in `docker/entrypoint.h` file.
 
