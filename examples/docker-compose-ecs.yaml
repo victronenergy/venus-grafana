@@ -1,0 +1,51 @@
+version: '3'
+services:
+  loader:
+    image: "victronenergy/venus-influx-loader:main"
+    links:
+      - influxdb
+    volumes:
+     - "config-storage:/config"
+    ports:
+     - "8088:8088"
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: victron-venus
+        awslogs-region: us-east-1
+        awslogs-stream-prefix: loader
+  influxdb:
+    image: "influxdb:1.8"
+    ports:
+     - "8086:8086"
+    volumes:
+     - "influxdb-storage:/var/lib/influxdb"
+    environment:
+     - INFLUXDB_HTTP_LOG_ENABLED=false
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: victron-venus
+        awslogs-region: us-east-1
+        awslogs-stream-prefix: influxdb
+  grafana:
+    image: "victronenergy/venus-grafana:main"
+    links:
+      - influxdb
+      - loader
+    volumes:
+     - "grafana-storage:/var/lib/grafana"
+    ports:
+     - "3000:3000"
+    logging:
+      driver: awslogs
+      options: 
+        awslogs-group: victron-venus
+        awslogs-region: us-east-1
+        awslogs-stream-prefix: grafana
+    
+volumes:
+ influxdb-storage:
+ grafana-storage:
+ config-storage:
+
