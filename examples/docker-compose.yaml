@@ -9,7 +9,7 @@ services:
      - "config-storage:/config"
   browser:
     image: "victronenergy/venus-influx-loader:develop"
-    command: [ "bin/venus-upnp-browser", "--discovery-api", "http://loader:8088/discovery-api/" ]
+    command: [ "bin/venus-upnp-browser", "--discovery-api", "http://localhost:8088/discovery-api/" ]
     # `network_mode: host` is required for the `venus-upnp-browser` to access your host network
     # and audo discover Venus devices.
     network_mode: host
