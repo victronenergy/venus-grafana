@@ -23,7 +23,7 @@ Note that [Grafana](https://www.grafana.com) is not a Victron product. It is a w
 
 Example Grafana Dashboard:
 
-![hydro power docker example](doc/img/hydro%20grafana.jpg)
+![hydro power docker example](doc/img/grafana-example-hydro.png)
 
 
 Getting Started with Victron & Grafana - [Part 1](https://www.youtube.com/watch?v=IkNuadRbANA), and [Part 2](http://www.youtube.com/watch?v=B-sGH0etieM) are very useful resources to get a general overview of how Venus Grafana started, where it is going, and what it has to offer:
