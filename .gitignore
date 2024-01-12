@@ -1,0 +1,6 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# misc
+.DS_Store
+Thumbs.db
+.env
