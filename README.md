@@ -46,10 +46,12 @@ All of these can run separately, or together. Natively on a Mac, Windows, Raspbe
 
 ## 3. Quick Start
 
+1. Enable plaintext MQTT service on your Venus OS device by accessing the remote console and going to Settings -> Services.
 1. Download [Docker Desktop](https://www.docker.com/products/docker-desktop/) for your platform.
-2. Download the ready made [examples/docker-compose.yaml](./examples/docker-compose.yaml) file and use the `docker compose up` to start all containers (see below for more details).
-3. Open (https://localhost:8088) in your browser and configure what Venus devices to monitor.
-4. Open (https://localhost:3000) in your browser to play with Grafana.
+1. Download the ready made [examples/docker-compose.yaml](./examples/docker-compose.yaml) file and use the `docker compose up` to start all containers (see below for more details).
+1. Open (https://localhost:8088) in your browser and configure what Venus devices to monitor. Default username and password is `admin` `admin`.
+1. Open (https://localhost:3000) in your browser to play with Grafana.
+
 
 ### 3.1 Starting / Stopping
 
