@@ -46,10 +46,12 @@ All of these can run separately, or together. Natively on a Mac, Windows, Raspbe
 
 ## 3. Quick Start
 
+1. Enable plaintext MQTT service on your Venus OS device by accessing the remote console and going to Settings -> Services.
 1. Download [Docker Desktop](https://www.docker.com/products/docker-desktop/) for your platform.
-2. Download the ready made [examples/docker-compose.yaml](./examples/docker-compose.yaml) file and use the `docker compose up` to start all containers (see below for more details).
-3. Open (https://localhost:8088) in your browser and configure what Venus devices to monitor.
-4. Open (https://localhost:3000) in your browser to play with Grafana.
+1. Download the ready made [examples/docker-compose.yaml](./examples/docker-compose.yaml) file and use the `docker compose up` to start all containers (see below for more details).
+1. Open http://localhost:8088 in your browser and configure what Venus devices to monitor. Default username and password is `admin` `admin`.
+1. Open http://localhost:3000 in your browser to play with Grafana. Default username and password is `admin` `admin`.
+
 
 ### 3.1 Starting / Stopping
 
@@ -251,7 +253,7 @@ $ export OWNER="martin"
 $ (cd docker && ./run-dev-image.sh)
 ```
 
-After that you can access the local Grafana instance via [http://localhost:3000]
+After that you can access the local Grafana instance via http://localhost:3000
 
 ### 8.4 Adding New Dashboards
 
@@ -261,7 +263,7 @@ It is strongly recommended to export the dashboards in JSON format once you are 
 
 The process of creating new dashboards looks like this:
 
-1. Start Grafana, go to the admin UI via [http://localhost:3000].
+1. Start Grafana, go to the admin UI via http://localhost:3000.
 2. Create new dashboard and panels, configure them as needed.
 3. Export the dashboard in JSON file and save it to this repository under `grafana/provisioning`.
 4. Open the saved panel and change `uid` near the end of the file to the same name you gave to the JSON file without extension so that you can later link to that new panel.
@@ -271,5 +273,5 @@ The process of creating new dashboards looks like this:
 
 ### 8.5 Changing the Home Dashboard
 
-Grafana will by default display a home dashboard specified via `GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH`. For the `venus-grafana` docker image this variable is configured in `docker/entrypoint.h` file.
+Grafana will by default display a home dashboard specified via `GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH`. For the `venus-grafana` docker image this variable is configured in `docker/entrypoint.sh` file.
 
