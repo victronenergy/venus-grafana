@@ -1,4 +1,4 @@
-FROM grafana/grafana:10.3.3
+FROM grafana/grafana:10.4.1
 
 COPY grafana/provisioning /etc/grafana/provisioning
 COPY docker/entrypoint.sh /
