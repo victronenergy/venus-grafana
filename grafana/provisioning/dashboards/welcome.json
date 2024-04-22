@@ -107,8 +107,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byName",
-              "options": "battery/Soc.mean {name: c0619ab2fcaa}"
+              "id": "byRegexp",
+              "options": "/battery.*/"
             },
             "properties": [
               {
@@ -116,30 +116,6 @@
                 "value": {
                   "fixedColor": "blue",
                   "mode": "fixed"
-                }
-              }
-            ]
-          },
-          {
-            "__systemRef": "hideSeriesFrom",
-            "matcher": {
-              "id": "byNames",
-              "options": {
-                "mode": "exclude",
-                "names": [
-                  "battery/Soc.mean {name: c0619ab2fcaa}"
-                ],
-                "prefix": "All except:",
-                "readOnly": true
-              }
-            },
-            "properties": [
-              {
-                "id": "custom.hideFrom",
-                "value": {
-                  "legend": false,
-                  "tooltip": false,
-                  "viz": true
                 }
               }
             ]
@@ -284,8 +260,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byName",
-              "options": "system/Dc/Pv/Power.mean {name: c0619ab2fcaa}"
+              "id": "byRegexp",
+              "options": "/system\/Dc\/Pv\/Power.*/"
             },
             "properties": [
               {
@@ -438,8 +414,8 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byName",
-              "options": "system/Dc/Pv/Power.mean {name: c0619ab2fcaa}"
+              "id": "byRegexp",
+              "options": "/pvinverter\/Ac\/Power.*/"
             },
             "properties": [
               {
