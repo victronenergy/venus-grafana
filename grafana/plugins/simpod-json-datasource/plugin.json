@@ -1,0 +1,43 @@
+{
+    "$schema": "https://raw.githubusercontent.com/grafana/grafana/master/docs/sources/developers/plugins/plugin.schema.json",
+    "name": "JSON",
+    "id": "simpod-json-datasource",
+    "type": "datasource",
+    "annotations": true,
+    "alerting": false,
+    "backend": false,
+    "metrics": true,
+    "logs": true,
+    "info": {
+        "author": {
+            "name": "Šimon Podlipský"
+        },
+        "description": "Load JSON data over your arbitrary HTTP backend",
+        "keywords": ["json", "api"],
+        "logos": {
+            "small": "img/json-logo.svg",
+            "large": "img/json-logo.svg"
+        },
+        "links": [
+            {
+                "name": "GitHub",
+                "url": "https://github.com/simPod/grafana-json-datasource"
+            },
+            {
+                "name": "MIT License",
+                "url": "https://github.com/simPod/grafana-json-datasource/blob/master/LICENSE"
+            }
+        ],
+        "screenshots": [
+          { "name": "Query", "path": "img/query.png" },
+          { "name": "Annotation", "path": "img/annotation.png" },
+          { "name": "Variable", "path": "img/variable.png" }
+        ],
+        "version": "0.6.3",
+        "updated": "2023-06-20"
+    },
+    "dependencies": {
+        "grafanaDependency": ">=9.0.0",
+        "plugins": [ ]
+    }
+}

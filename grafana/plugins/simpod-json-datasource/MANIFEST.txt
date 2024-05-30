@@ -1,0 +1,37 @@
+
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA512
+
+{
+  "manifestVersion": "2.0.0",
+  "signatureType": "community",
+  "signedByOrg": "simpod",
+  "signedByOrgName": "Šimon Podlipský",
+  "plugin": "simpod-json-datasource",
+  "version": "0.6.3",
+  "time": 1687258699072,
+  "keyId": "7e4d0c6a708866e7",
+  "files": {
+    "module.js.map": "0e9b66cef2ab26e8215e02b08a71701a90a72f002209bfa13ae80e511a201e2c",
+    "LICENSE": "258b3f7127be3318d9e9338483d7dac3c1b3f9e0a07ac3a0db7ebdf11b92d9d0",
+    "README.md": "3921cf9d701f9fed8b8eb22e3aefeac2b32e13bcbcac33bd3ffe9e079fa3cb13",
+    "module.js": "b02ae35d6d85054ccc4901030eb8aa39460c427aa7b7e5d4a53f7d6c0580071f",
+    "CHANGELOG.md": "79b30c840e83485eaea4aa390c966b02205b6a342972e55dc5d8e37de3075a94",
+    "img/json-logo.svg": "46391ecc7193b255fc8569cdd4920844b70feb1f7a9defd0658e70ace5928094",
+    "img/variable.png": "8ae29541fb1bf19b65b7e486e01e1cd487ad388e317eaebf6b701aac12a6b866",
+    "img/query.png": "397dee0866b45a2845e56f6ba0ce1ff90fa67ac0cf850a9a498c7541ea392121",
+    "img/annotation.png": "3c58a3479c26f1bb945d39fbcd70093207b550095e9b2bcd1345034b031baddc",
+    "plugin.json": "d4b90d7cd6533426082e915eeb87a42058870f02516e9c8d8e25e5bf08075006"
+  }
+}
+-----BEGIN PGP SIGNATURE-----
+Version: OpenPGP.js v4.10.10
+Comment: https://openpgpjs.org
+
+wrcEARMKAAYFAmSRhksAIQkQfk0ManCIZucWIQTzOyW2kQdOhGNlcPN+TQxq
+cIhm5y+/AgdVBH2XPj+m++mGciP2V7gpNSExtGIP6of3fvlBD+yRnq/qkDSi
+w++2Rg7fss/OU1lyMnHx0UX6WkWonWrXJ1XXxgIGMCQmYkgN1nZ89PuZUcwL
+QAwg7Q3VyFv25BM1Rjnai557JZSSv977bVpVcuYfRXmGkp7BShnr/Lx6p6OK
+4gpdkkU=
+=pgnu
+-----END PGP SIGNATURE-----
