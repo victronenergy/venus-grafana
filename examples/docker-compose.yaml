@@ -30,9 +30,9 @@ services:
     environment:
      - VIL_INFLUXDB_URL=http://influxdb:8086
      - VIL_GRAFANA_API_URL=http://loader:8088/grafana-api
+     - VIL_ADMIN_ADDRESS=http://localhost:8088/admin
 
 volumes:
   influxdb-storage:
   grafana-storage:
   config-storage:
-
