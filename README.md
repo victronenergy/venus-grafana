@@ -156,9 +156,12 @@ services:
     environment:
      - VIL_INFLUXDB_URL=http://influxdb:8086
      - VIL_GRAFANA_API_URL=http://loader:8088/grafana-api
+     - VIL_PUBLIC_URL=http://localhost:8088/
 ```
 
 Note the environment variables `VIL_INFLUXDB_URL` and `VIL_GRAFANA_API_URL` that tell Grafana how to connect to our Influx DB and Venus Influx Loader. The hostnames `influxdb` and `loader` actually refer to the container names.
+
+The environment variable `VIL_PUBLIC_URL` specifies what URL to use to access Venus Influx Loader. This URL will be displayed on the Venus Grafana Welcome page to guide users to Venus Influx Loader Settings.
 
 ### 4.3 Random Tips & Notes
 
