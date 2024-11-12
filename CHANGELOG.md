@@ -1,3 +1,11 @@
+# [1.3.0](https://github.com/victronenergy/venus-grafana/compare/1.2.0...1.3.0) (2024-11-12)
+
+
+### Features
+
+* bump venus-influx-loader, venus-grafana from 1.2 to 1.3 ([c4b970e](https://github.com/victronenergy/venus-grafana/commit/c4b970ecb70d86aa4cb88e44a9409381d1062c45))
+* Display `$VIL_PUBLIC_URL` on `welcome.json` dashboard ([cd645ef](https://github.com/victronenergy/venus-grafana/commit/cd645ef7fede7660cbb4e57004c89ddef571e39a))
+
 # [1.2.0](https://github.com/victronenergy/venus-grafana/compare/1.1.1...1.2.0) (2024-09-13)
 
 
