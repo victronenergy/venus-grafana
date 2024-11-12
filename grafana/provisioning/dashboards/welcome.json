@@ -40,7 +40,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "# Venus Grafana\n\nWelcome to Grafana for Venus OS.\n\nThe following dashboards allow you to quickly assess state of all your monitored Venus OS devices.\n\nClick the link on each dashboard to dive into more details about each component.",
+        "content": "# Venus Grafana\n\nWelcome to Grafana for Venus OS.\n\nThe following dashboards allow you to quickly assess state of all your monitored Venus OS devices.\n\nClick the link on each dashboard to dive into more details about each component.\n\nVisit the [Admin UI](__VIL_PUBLIC_URL__) to select Venus devices for monitoring.",
         "mode": "markdown"
       },
       "pluginVersion": "9.5.3",

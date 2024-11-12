@@ -30,9 +30,11 @@ services:
     environment:
      - VIL_INFLUXDB_URL=http://influxdb:8086
      - VIL_GRAFANA_API_URL=http://loader:8088/grafana-api
+     # specify URL that should be listed on Welcome dashboard
+     # to acess Venus Influx Loader Admin UI
+     - VIL_PUBLIC_URL=http://localhost:8088/
 
 volumes:
   influxdb-storage:
   grafana-storage:
   config-storage:
-
