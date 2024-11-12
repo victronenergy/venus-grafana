@@ -1,4 +1,4 @@
-FROM grafana/grafana:11.2.2
+FROM grafana/grafana:11.3.0
 
 COPY grafana/provisioning /etc/grafana/provisioning
 COPY grafana/plugins /var/lib/grafana/plugins
