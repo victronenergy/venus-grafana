@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/victronenergy/venus-grafana/compare/1.3.0...1.3.1) (2024-11-13)
+
+
+### Bug Fixes
+
+* bump grafana docker image from 11.3.0 to 11.3.0-security-01 ([54be913](https://github.com/victronenergy/venus-grafana/commit/54be913167df953982f4a398be5b6d2551491ae2))
+
 # [1.3.0](https://github.com/victronenergy/venus-grafana/compare/1.2.0...1.3.0) (2024-11-12)
 
 
