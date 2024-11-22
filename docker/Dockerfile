@@ -1,4 +1,4 @@
-FROM grafana/grafana:11.3.0-security-01
+FROM grafana/grafana:11.3.1
 
 COPY --chown=grafana grafana/provisioning /etc/grafana/provisioning
 COPY --chown=grafana grafana/plugins /var/lib/grafana/plugins
