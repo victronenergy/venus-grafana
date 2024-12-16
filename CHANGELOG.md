@@ -1,3 +1,16 @@
+# [1.4.0](https://github.com/victronenergy/venus-grafana/compare/1.3.1...1.4.0) (2024-12-16)
+
+
+### Bug Fixes
+
+* bump grafana docker image from 11.3.1 to 11.4.0 ([1a49f6f](https://github.com/victronenergy/venus-grafana/commit/1a49f6f4b9d8302504a07d4a679a50c2efd90961))
+* bump grafana docker image from11.3.0-security-01 to 11.3.1 ([0d26c16](https://github.com/victronenergy/venus-grafana/commit/0d26c160130654817f9e14e0730126e8313255f7))
+
+
+### Features
+
+* bump venus-grafana, venus-influx-loader to 1.4 ([60b7802](https://github.com/victronenergy/venus-grafana/commit/60b7802295b882a6ae9e41f19758651f7ee57995))
+
 ## [1.3.1](https://github.com/victronenergy/venus-grafana/compare/1.3.0...1.3.1) (2024-11-13)
 
 
