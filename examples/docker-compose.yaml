@@ -1,14 +1,14 @@
 version: '3.4'
 services:
   loader:
-    image: "victronenergy/venus-influx-loader:1.3"
+    image: "victronenergy/venus-influx-loader:1.4"
     command: [ "bin/venus-influx-loader", "--enable-discovery-api" ]
     ports:
      - "8088:8088"
     volumes:
      - "config-storage:/config"
   browser:
-    image: "victronenergy/venus-influx-loader:1.3"
+    image: "victronenergy/venus-influx-loader:1.4"
     command: [ "bin/venus-upnp-browser", "--discovery-api", "http://localhost:8088/discovery-api/" ]
     # `network_mode: host` is required for the `venus-upnp-browser` to access your host network
     # and audo discover Venus devices.
@@ -22,7 +22,7 @@ services:
     environment:
      - INFLUXDB_HTTP_LOG_ENABLED=false
   grafana:
-    image: "victronenergy/venus-grafana:1.3"
+    image: "victronenergy/venus-grafana:1.4"
     volumes:
      - "grafana-storage:/var/lib/grafana"
     ports:
