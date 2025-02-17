@@ -41,8 +41,10 @@ Getting Started with Victron & Grafana - [Part 1](https://www.youtube.com/watch?
 
 All of these can run separately, or together. Natively on a Mac, Windows, Raspberry PI, or any box that supports [Docker](https://www.docker.com) containers. It can be also any cloud hosting provider, for example [AWS](AWS.md).
 
-> **Note:** Patience and willingness is required to study and figure all this out. Beware that Venus Grafana is not an officially supported Victron solution. Neither Victron, nor its partners, and dealers will help you in case of problems. For support, reach to
-[Victron Community Grafana Discussion Forum](https://communityarchive.victronenergy.com/search.html?c=&includeChildren=&f=&type=question+OR+idea+OR+kbentry+OR+answer+OR+topic+OR+user&redirect=search%2Fsearch&sort=relevance&q=grafana).
+> **Note:** Patience and willingness is required to study and figure all this out. Beware that Venus Grafana is not an officially supported Victron solution. Neither Victron, nor its partners, and dealers will help you in case of problems. 
+
+> For support, reach out to [Victron Community Grafana Discussion Topics](https://community.victronenergy.com/tag/grafana). Or check out the archive of our old community here :
+[Victron Community Archive - Grafana Discussion Forum](https://communityarchive.victronenergy.com/search.html?c=&includeChildren=&f=&type=question+OR+idea+OR+kbentry+OR+answer+OR+topic+OR+user&redirect=search%2Fsearch&sort=relevance&q=grafana) which is still a valuable source of information.
 
 ## 3. Quick Start
 
