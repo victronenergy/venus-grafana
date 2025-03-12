@@ -1,3 +1,17 @@
+# [1.5.0](https://github.com/victronenergy/venus-grafana/compare/1.4.0...1.5.0) (2025-03-12)
+
+
+### Bug Fixes
+
+* Update README.md with new community link ([#38](https://github.com/victronenergy/venus-grafana/issues/38)) ([e963293](https://github.com/victronenergy/venus-grafana/commit/e9632930c7f65aa78e03702bfcd3ff4a063267e0))
+
+
+### Features
+
+* bump grafana docker image from 11.4.0 to 11.5.1 ([b11df44](https://github.com/victronenergy/venus-grafana/commit/b11df44f87baf4a6e171bd2c5696bf039c29d0ee))
+* bump grafana docker image from 11.5.1 to 11.5.2 ([78dee73](https://github.com/victronenergy/venus-grafana/commit/78dee73eed4611cfb8e9443beb36dfb8bd2def7c))
+* bump venus-grafana, venus-influx-loader to 1.5 ([0c5029f](https://github.com/victronenergy/venus-grafana/commit/0c5029f54fb0666d75134319bb68b534ab415e17))
+
 # [1.4.0](https://github.com/victronenergy/venus-grafana/compare/1.3.1...1.4.0) (2024-12-16)
 
 
