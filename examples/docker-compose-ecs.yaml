@@ -1,7 +1,7 @@
 version: '3'
 services:
   loader:
-    image: "victronenergy/venus-influx-loader:1.5"
+    image: "victronenergy/venus-influx-loader:1.6"
     links:
       - influxdb
     volumes:
@@ -29,7 +29,7 @@ services:
         awslogs-region: us-east-1
         awslogs-stream-prefix: influxdb
   grafana:
-    image: "victronenergy/venus-grafana:1.5"
+    image: "victronenergy/venus-grafana:1.6"
     links:
       - influxdb
       - loader
