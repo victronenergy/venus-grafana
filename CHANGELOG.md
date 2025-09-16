@@ -1,3 +1,15 @@
+## [1.6.1](https://github.com/victronenergy/venus-grafana/compare/1.6.0...1.6.1) (2025-09-16)
+
+
+### Bug Fixes
+
+* bump grafana docker image from 11.6.1 to 11.6.2 ([3b081c7](https://github.com/victronenergy/venus-grafana/commit/3b081c782708d454a5bec4253b63a33676099cda))
+* bump grafana docker image from 11.6.2 to 11.6.2-security-01 ([35f82c0](https://github.com/victronenergy/venus-grafana/commit/35f82c0da078c2084283e71788d9370e5ddbd424))
+* bump grafana docker image from 11.6.2-security-01 to 11.6.3 ([5143d74](https://github.com/victronenergy/venus-grafana/commit/5143d740b51c7e2a7bbac636519b4aba29defa2b))
+* bump grafana docker image from 11.6.3 to 11.6.3-security-01 ([ccecc77](https://github.com/victronenergy/venus-grafana/commit/ccecc77c2adc44a9061eb3e827761c4802194bfa))
+* bump grafana docker image from 11.6.3-security-01 to 12.1.0 ([08177ed](https://github.com/victronenergy/venus-grafana/commit/08177ed26310702c8ddbde4d10daf279263e4029))
+* bump grafana docker image from 12.1.0 to 12.1.1 ([4540854](https://github.com/victronenergy/venus-grafana/commit/45408549f790115f01d3a92b519c57590506c200))
+
 # [1.6.0](https://github.com/victronenergy/venus-grafana/compare/1.5.0...1.6.0) (2025-05-13)
 
 
