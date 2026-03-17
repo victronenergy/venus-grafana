@@ -1,4 +1,3 @@
-version: '3.4'
 services:
   loader:
     image: "victronenergy/venus-influx-loader:1.6"
