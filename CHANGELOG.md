@@ -1,3 +1,20 @@
+# [1.7.0](https://github.com/victronenergy/venus-grafana/compare/1.6.1...1.7.0) (2026-03-19)
+
+
+### Bug Fixes
+
+* bump grafana docker image from 12.1.1 to 12.2.0 ([2927f1e](https://github.com/victronenergy/venus-grafana/commit/2927f1eee9e5c0f319a051c400c677a583f6eed6))
+* bump grafana docker image from 12.2.0 to 12.2.2 ([587b469](https://github.com/victronenergy/venus-grafana/commit/587b469257501c5518a36d1946ae124f479d879a))
+* bump grafana docker image from 12.3.2 ([625ec89](https://github.com/victronenergy/venus-grafana/commit/625ec89ef2ae00b16e823e8ca758803b7821ce2f))
+* bump grafana docker image from 12.3.2 to 12.3.4 ([bd3c91c](https://github.com/victronenergy/venus-grafana/commit/bd3c91c146bc6a2d1f33332f16ddb555f13b78ae))
+* bump grafana docker image from 12.3.4 to 12.4.1 ([20af7d5](https://github.com/victronenergy/venus-grafana/commit/20af7d5d6538a9ebeba9641f910e36584cbaec43))
+* docker compose version is obsolete ([59f27f5](https://github.com/victronenergy/venus-grafana/commit/59f27f512d079dc1e59909de96d3987557354771))
+
+
+### Features
+
+* bump venus-grafana, venus-influx-loader to 1.7 ([4212331](https://github.com/victronenergy/venus-grafana/commit/421233150b25e6d37907924472ae4eabce89853c))
+
 ## [1.6.1](https://github.com/victronenergy/venus-grafana/compare/1.6.0...1.6.1) (2025-09-16)
 
 
