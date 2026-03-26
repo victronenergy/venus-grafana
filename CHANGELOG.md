@@ -1,3 +1,10 @@
+## [1.7.1](https://github.com/victronenergy/venus-grafana/compare/1.7.0...1.7.1) (2026-03-26)
+
+
+### Bug Fixes
+
+* bump grafana docker image from 12.4.1 to 12.4.2 ([10890bd](https://github.com/victronenergy/venus-grafana/commit/10890bd2aef18804fa4720886c033ae476f0664e))
+
 # [1.7.0](https://github.com/victronenergy/venus-grafana/compare/1.6.1...1.7.0) (2026-03-19)
 
 
