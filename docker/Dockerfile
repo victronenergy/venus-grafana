@@ -1,4 +1,4 @@
-FROM grafana/grafana:12.4.1
+FROM grafana/grafana:12.4.2
 
 COPY --chown=grafana grafana/provisioning /etc/grafana/provisioning
 COPY --chown=grafana grafana/plugins /var/lib/grafana/plugins
