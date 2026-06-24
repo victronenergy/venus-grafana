@@ -1,3 +1,17 @@
+# [1.8.0](https://github.com/victronenergy/venus-grafana/compare/1.7.2...1.8.0) (2026-06-24)
+
+
+### Bug Fixes
+
+* bump venus-grafana, venus-influx-loader to 1.8 ([5bb9a2d](https://github.com/victronenergy/venus-grafana/commit/5bb9a2d892b4a00ed583c90f6de93972231c8847))
+* update grafana docker image from 13.0.1 to 13.0.2 ([f432f25](https://github.com/victronenergy/venus-grafana/commit/f432f257a363ff8d7c56a1f2dc7cf65db07c1574))
+* update grafana docker image from 13.0.2 to 13.0.3 ([5de33c6](https://github.com/victronenergy/venus-grafana/commit/5de33c69b0b6d3efdaa3359e079e20c62e4f6e82))
+
+
+### Features
+
+* update grafana docker image from 12.4.3 to 13.0.1 ([6ff3951](https://github.com/victronenergy/venus-grafana/commit/6ff39513cca212ff0f3f8b0b562e37fe3cb888ae))
+
 ## [1.7.2](https://github.com/victronenergy/venus-grafana/compare/1.7.1...1.7.2) (2026-04-17)
 
 
