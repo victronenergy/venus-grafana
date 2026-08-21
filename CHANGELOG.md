@@ -1,3 +1,11 @@
+## [1.8.1](https://github.com/victronenergy/venus-grafana/compare/1.8.0...1.8.1) (2026-08-21)
+
+
+### Bug Fixes
+
+* update grafana docker image from 13.0.3 to 13.1.2 ([a030def](https://github.com/victronenergy/venus-grafana/commit/a030def7e9fd6dd2ec10fbcc5672aae3761db457))
+* update grafana docker image from 13.1.2 to 13.2.0 ([09b1477](https://github.com/victronenergy/venus-grafana/commit/09b147755700d7f76cc64615b0c3759af5451407))
+
 # [1.8.0](https://github.com/victronenergy/venus-grafana/compare/1.7.2...1.8.0) (2026-06-24)
 
 
