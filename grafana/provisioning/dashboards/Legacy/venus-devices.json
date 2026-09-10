@@ -63,12 +63,12 @@
           {
             "matcher": {
               "id": "byName",
-              "options": "Time"
+              "options": "Last Measurement Timestamp"
             },
             "properties": [
               {
                 "id": "displayName",
-                "value": "Time"
+                "value": "Last Measurement Timestamp"
               },
               {
                 "id": "unit",
