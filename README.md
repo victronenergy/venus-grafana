@@ -233,6 +233,29 @@ The `venus-grafana` docker image can be configured using the following environme
 - `VIL_GRAFANA_API_URL`: URL to access Grafana API endpoint of Venus Influx Loader.
   Example: `VIL_GRAFANA_API_URL=http://localhost:8088/grafana-api`
 
+- `VIL_PUBLIC_URL`: Public URL of Venus Influx Loader, linked from the welcome dashboard.
+  Example: `VIL_PUBLIC_URL=http://localhost:8088`
+
+Optional variables to sync dashboards from your own GitHub repository via Grafana Git Sync (see 8.6):
+
+- `VIL_GITSYNC_GITHUB_URL`: GitHub repository URL. Setting this enables Git Sync.
+  Example: `VIL_GITSYNC_GITHUB_URL=https://github.com/me/my-dashboards`
+
+- `VIL_GITSYNC_GITHUB_TOKEN`: GitHub Personal Access Token. Alternatively `VIL_GITSYNC_GITHUB_TOKEN__FILE` points to a file containing the token (docker secrets).
+
+- `VIL_GITSYNC_GITHUB_BRANCH`: Branch to sync. Default: `main`.
+
+- `VIL_GITSYNC_GITHUB_PATH`: Sub-path inside the repository that holds the dashboard JSON files. Default: repository root.
+  Example: `VIL_GITSYNC_GITHUB_PATH=grafana/`
+
+- `VIL_GITSYNC_TITLE`: Name shown in Grafana and used for the folder holding the synced dashboards. Default: `GitHub`.
+
+- `VIL_GITSYNC_WORKFLOWS`: Comma separated list of `write` (save from Grafana straight to the branch) and `branch` (save to a new branch and open a pull request). Set empty for pull-only. Default: `write,branch`.
+
+- `VIL_GITSYNC_TARGET`: `folder` or `folderless`. Default: `folder`.
+
+- `VIL_GITSYNC_INTERVAL_SECONDS`: How often Grafana polls GitHub for changes. Default: `60`.
+
 
 ### 8.2 Docker Image Structure
 
@@ -279,4 +302,29 @@ The process of creating new dashboards looks like this:
 ### 8.5 Changing the Home Dashboard
 
 Grafana will by default display a home dashboard specified via `GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH`. For the `venus-grafana` docker image this variable is configured in `docker/entrypoint.sh` file.
+
+### 8.6 Syncing Dashboards from GitHub (Git Sync)
+
+Grafana 13 ships with [Git Sync](https://grafana.com/docs/grafana/latest/as-code/observability-as-code/git-sync/), which pulls dashboards from a Git repository and can push edits made in the Grafana UI back to it. Grafana has no on-disk provisioning format for Git Sync, so the `venus-grafana` image registers the repository through the Grafana provisioning API at startup using `docker/gitsync-bootstrap.sh`, driven by the `VIL_GITSYNC_*` environment variables listed in 8.1.
+
+To sync dashboards from your own GitHub repository:
+
+1. Create a GitHub fine-grained Personal Access Token for the repository with `Contents: Read and write` and `Metadata: Read-only` permissions (plus `Pull requests: Read and write` if you want to use the `branch` workflow).
+2. Set at least `VIL_GITSYNC_GITHUB_URL` and `VIL_GITSYNC_GITHUB_TOKEN` (see `examples/docker-compose.yaml`). For local development put them into a `.env` file in the repository root, which is git-ignored and picked up by `docker/run-dev-image.sh`:
+
+   ```
+   VIL_GITSYNC_GITHUB_URL=https://github.com/me/my-dashboards
+   VIL_GITSYNC_GITHUB_TOKEN=github_pat_xxx
+   VIL_GITSYNC_GITHUB_BRANCH=main
+   VIL_GITSYNC_GITHUB_PATH=grafana/
+   ```
+
+3. Start the container. The log shows `[gitsync-bootstrap] created Git Sync repository 'github-dashboards'`, the repository appears under `Administration > Provisioning`, and a folder named after `VIL_GITSYNC_TITLE` shows up in Dashboards.
+
+Notes:
+
+- The repository is created on first start and updated on later starts, so changing any `VIL_GITSYNC_*` variable takes effect after a restart. Unsetting `VIL_GITSYNC_GITHUB_URL` stops managing it but does not delete it; remove it under `Administration > Provisioning`.
+- Webhooks are not used, Grafana polls GitHub every `VIL_GITSYNC_INTERVAL_SECONDS` seconds.
+- Dashboards synced from GitHub must have `uid` values that differ from the file-provisioned ones in `grafana/provisioning/dashboards`.
+- The bootstrap authenticates with `GF_SECURITY_ADMIN_USER` / `GF_SECURITY_ADMIN_PASSWORD` (default `admin` / `admin`). If Grafana listens on a non-default port, set `GITSYNC_BOOTSTRAP_URL` (default `http://localhost:3000`).
 

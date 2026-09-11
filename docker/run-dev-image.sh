@@ -14,6 +14,11 @@ VIL_INFLUXDB_USERNAME=s3cr4t
 VIL_INFLUXDB_PASSWORD=s3cr4t
 VIL_GRAFANA_API_URL=http://host.docker.internal:8088/grafana-api
 
+# Optional local overrides, e.g. VIL_GITSYNC_* variables to sync dashboards
+# from your GitHub repository. `.env` is git-ignored, keep your token there.
+ENV_FILE="../.env"
+[ -f "$ENV_FILE" ] && ENV_FILE_OPT="--env-file $ENV_FILE"
+
 docker network inspect $NETWORK 1>/dev/null 2>/dev/null || docker network create $NETWORK
 
 docker run -p 3000:3000 --network $NETWORK \
@@ -21,4 +26,5 @@ docker run -p 3000:3000 --network $NETWORK \
     -e VIL_INFLUXDB_USERNAME=$VIL_INFLUXDB_USERNAME \
     -e VIL_INFLUXDB_PASSWORD=$VIL_INFLUXDB_PASSWORD \
     -e VIL_GRAFANA_API_URL=$VIL_GRAFANA_API_URL \
+    ${ENV_FILE_OPT} \
     ${TAG}

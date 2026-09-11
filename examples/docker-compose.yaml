@@ -32,6 +32,12 @@ services:
      # specify URL that should be listed on Welcome dashboard
      # to acess Venus Influx Loader Admin UI
      - VIL_PUBLIC_URL=http://localhost:8088/
+     # optionally sync dashboards from your own GitHub repository via Grafana Git Sync,
+     # see README section 8.6 for details and the remaining VIL_GITSYNC_* variables
+     # - VIL_GITSYNC_GITHUB_URL=https://github.com/me/my-dashboards
+     # - VIL_GITSYNC_GITHUB_TOKEN=github_pat_xxx
+     # - VIL_GITSYNC_GITHUB_BRANCH=main
+     # - VIL_GITSYNC_GITHUB_PATH=grafana/
 
 volumes:
   influxdb-storage:
