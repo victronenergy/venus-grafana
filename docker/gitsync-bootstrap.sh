@@ -46,7 +46,7 @@ TARGET="${VIL_GITSYNC_TARGET:-folder}"
 INTERVAL="${VIL_GITSYNC_INTERVAL_SECONDS:-60}"
 WORKFLOWS="${VIL_GITSYNC_WORKFLOWS-write,branch}"
 
-BASE_URL="${GITSYNC_BOOTSTRAP_URL:-http://localhost:${GF_SERVER_HTTP_PORT:-3000}}"
+BASE_URL="${GRAFANA_BOOTSTRAP_URL:-${GITSYNC_BOOTSTRAP_URL:-http://localhost:${GF_SERVER_HTTP_PORT:-3000}}}"
 API="$BASE_URL/apis/provisioning.grafana.app/v0alpha1/namespaces/default/repositories"
 AUTH="${GF_SECURITY_ADMIN_USER:-admin}:${GF_SECURITY_ADMIN_PASSWORD:-admin}"
 

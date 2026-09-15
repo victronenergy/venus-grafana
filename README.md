@@ -236,6 +236,12 @@ The `venus-grafana` docker image can be configured using the following environme
 - `VIL_PUBLIC_URL`: Public URL of Venus Influx Loader, linked from the welcome dashboard.
   Example: `VIL_PUBLIC_URL=http://localhost:8088`
 
+- `VIL_HOME_DASHBOARD_TITLE`: Exact title of the dashboard shown as the Grafana home page. Works for the dashboards shipped in the image as well as for dashboards synced from GitHub. See 8.5. Default: `Welcome`.
+  Example: `VIL_HOME_DASHBOARD_TITLE=Diagnostics`
+
+- `VIL_HOME_DASHBOARD_UID`: Alternative to `VIL_HOME_DASHBOARD_TITLE` that selects the home dashboard by its UID, for when several dashboards share a title. See 8.5.
+  Example: `VIL_HOME_DASHBOARD_UID=battery`
+
 Optional variables to sync dashboards from your own GitHub repository via Grafana Git Sync (see 8.6):
 
 - `VIL_GITSYNC_GITHUB_URL`: GitHub repository URL. Setting this enables Git Sync.
@@ -301,7 +307,68 @@ The process of creating new dashboards looks like this:
 
 ### 8.5 Changing the Home Dashboard
 
-Grafana will by default display a home dashboard specified via `GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH`. For the `venus-grafana` docker image this variable is configured in `docker/entrypoint.sh` file.
+By default Grafana shows the Venus Grafana welcome dashboard as its home page. The `venus-grafana` image sets `GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH` to `welcome.json` in `docker/entrypoint.sh`, which is Grafana's file based fallback.
+
+To show a different dashboard on the home page set `VIL_HOME_DASHBOARD_TITLE` to the exact title of that dashboard, as displayed in Grafana, for example in `docker-compose.yaml`:
+
+```yaml
+  grafana:
+    image: "victronenergy/venus-grafana:1.8"
+    environment:
+     - VIL_HOME_DASHBOARD_TITLE=Battery
+```
+
+The title is matched case sensitively and may contain spaces and punctuation, no quoting is needed in `docker-compose.yaml` or `.env` files:
+
+```
+VIL_HOME_DASHBOARD_TITLE=Example 1: Instant vs Over Time Measurements
+```
+
+At startup `docker/home-dashboard-bootstrap.sh` waits until a dashboard with that title exists, looks up its UID through the Grafana search API and stores it as the organization default home dashboard through the Grafana preferences API (`PATCH /api/org/preferences`). This works for every dashboard Grafana knows about, including dashboards synced from GitHub via Git Sync (8.6), which Grafana keeps in its database rather than on disk and which therefore cannot be selected via `GF_DASHBOARDS_DEFAULT_HOME_DASHBOARD_PATH`.
+
+Complete example that syncs the dashboards from https://github.com/mman/venus-grafana-sample-dashboards and shows the `Diagnostics` dashboard from that repository as the home page:
+
+```
+VIL_GITSYNC_GITHUB_URL=https://github.com/mman/venus-grafana-sample-dashboards
+VIL_GITSYNC_GITHUB_TOKEN=github_pat_xxx
+VIL_HOME_DASHBOARD_TITLE=Diagnostics
+```
+
+#### Selecting by UID instead
+
+The title must match exactly one dashboard. If several dashboards share the title, the bootstrap logs their UIDs and URLs and leaves the home dashboard unchanged. In that case, or if you prefer an identifier that survives renaming the dashboard, set `VIL_HOME_DASHBOARD_UID` instead of `VIL_HOME_DASHBOARD_TITLE` (setting both is an error). The UID is:
+
+- For any dashboard visible in Grafana: the path segment right after `/d/` in the browser URL, e.g. `http://localhost:3000/d/battery/battery`. It is also shown as `uid` under Dashboard settings > JSON Model.
+
+- For the dashboards shipped in the image (`grafana/provisioning/dashboards`): the JSON file name without extension, because 8.4 asks for that convention: `welcome`, `battery`, `dcpv`, `acpv`, `venus-dashboard`, `venus-devices`.
+
+- For dashboards synced from your GitHub repository (8.6): the UID stored inside the dashboard JSON file. Grafana Git Sync uses that value verbatim and ignores the file name. Files that Grafana itself wrote to the repository (dashboards created in the Grafana UI and saved via the `write` or `branch` workflow) use the Kubernetes style layout, where the file name is auto-generated (e.g. `new-dashboard-2026-06-16-kkxve.json`) and the UID is `metadata.name`:
+
+  ```json
+  {
+    "apiVersion": "dashboard.grafana.app/v2",
+    "kind": "Dashboard",
+    "metadata": {
+      "name": "dafpat0y2jw2kgd",
+      ...
+    },
+    "spec": {
+      "title": "Diagnostics",
+      ...
+    }
+  }
+  ```
+
+  Classic dashboard JSON files (exported via Share > Export, or hand written) have the UID as the top-level `"uid"` field, next to `"title"`. A dashboard file without a UID is rejected by Git Sync, so every synced dashboard has one. The UID of an existing dashboard cannot be changed from within Grafana; to give a synced dashboard a readable UID edit `metadata.name` (or `"uid"`) in the repository, after which Grafana re-creates the dashboard under the new UID on the next sync.
+
+Notes:
+
+- The bootstrap runs in the background and never blocks or delays Grafana startup. Grafana starts and shows the previous home dashboard until the requested one is available, which for Git Sync means after the first pull has finished. The bootstrap waits up to 10 minutes for the dashboard to appear and then gives up, leaving the home dashboard unchanged.
+- The log shows `[home-dashboard] set home dashboard to dashboard titled 'Diagnostics' (uid 'dafpat0y2jw2kgd')` on success, or the reason for failure (dashboard not found, ambiguous title, wrong credentials, API error). To inspect the stored preference run `curl -u admin:admin http://localhost:3000/api/org/preferences`.
+- The setting is stored in the Grafana database (`/var/lib/grafana`). It is applied on every start, so changing the variable takes effect after a restart. Unsetting both variables leaves the last stored value in place; set `VIL_HOME_DASHBOARD_TITLE=Welcome` to return to the default.
+- Renaming the selected dashboard in Grafana does not update the stored preference; the home page keeps working, but the next restart logs that the title was not found. Update the variable or switch to `VIL_HOME_DASHBOARD_UID`.
+- This sets the organization wide default. A home dashboard chosen by a user under Profile > Preferences, or by a team, takes precedence for that user or team.
+- The bootstrap authenticates with `GF_SECURITY_ADMIN_USER` / `GF_SECURITY_ADMIN_PASSWORD` (default `admin` / `admin`), see the last note of 8.6.
 
 ### 8.6 Syncing Dashboards from GitHub (Git Sync)
 
@@ -326,5 +393,5 @@ Notes:
 - The repository is created on first start and updated on later starts, so changing any `VIL_GITSYNC_*` variable takes effect after a restart. Unsetting `VIL_GITSYNC_GITHUB_URL` stops managing it but does not delete it; remove it under `Administration > Provisioning`.
 - Webhooks are not used, Grafana polls GitHub every `VIL_GITSYNC_INTERVAL_SECONDS` seconds.
 - Dashboards synced from GitHub must have `uid` values that differ from the file-provisioned ones in `grafana/provisioning/dashboards`.
-- The bootstrap authenticates with `GF_SECURITY_ADMIN_USER` / `GF_SECURITY_ADMIN_PASSWORD` (default `admin` / `admin`). If Grafana listens on a non-default port, set `GITSYNC_BOOTSTRAP_URL` (default `http://localhost:3000`).
+- The bootstrap authenticates with `GF_SECURITY_ADMIN_USER` / `GF_SECURITY_ADMIN_PASSWORD` (default `admin` / `admin`). If you changed the admin password in the Grafana UI, pass the new password via these variables, otherwise the bootstrap cannot log in. If Grafana listens on a non-default port, set `GRAFANA_BOOTSTRAP_URL` (default `http://localhost:3000`). The same applies to the home dashboard bootstrap (8.5).
 

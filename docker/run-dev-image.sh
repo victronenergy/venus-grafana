@@ -15,7 +15,8 @@ VIL_INFLUXDB_PASSWORD=s3cr4t
 VIL_GRAFANA_API_URL=http://host.docker.internal:8088/grafana-api
 
 # Optional local overrides, e.g. VIL_GITSYNC_* variables to sync dashboards
-# from your GitHub repository. `.env` is git-ignored, keep your token there.
+# from your GitHub repository, or VIL_HOME_DASHBOARD_TITLE to pick the home
+# dashboard. `.env` is git-ignored, keep your token there.
 ENV_FILE="../.env"
 [ -f "$ENV_FILE" ] && ENV_FILE_OPT="--env-file $ENV_FILE"
 

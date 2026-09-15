@@ -11,8 +11,10 @@ if [ -n "$VIL_PUBLIC_URL" ]; then
   rm /tmp/welcome.json.tmpl
 fi
 
-# Register local Git Sync repositories (if any) once Grafana is up; runs in the
-# background so Grafana remains PID 1 via exec below.
+# Register local Git Sync repositories (if any) and set the home dashboard
+# (if requested) once Grafana is up; both run in the background so Grafana
+# remains PID 1 via exec below and its startup is never delayed.
 /gitsync-bootstrap.sh &
+/home-dashboard-bootstrap.sh &
 
 exec /run.sh

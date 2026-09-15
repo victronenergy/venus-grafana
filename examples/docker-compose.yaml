@@ -38,6 +38,10 @@ services:
      # - VIL_GITSYNC_GITHUB_TOKEN=github_pat_xxx
      # - VIL_GITSYNC_GITHUB_BRANCH=main
      # - VIL_GITSYNC_GITHUB_PATH=grafana/
+     # optionally choose the dashboard shown on the Grafana home page by its title
+     # (a shipped one like `Battery`, or one synced from your GitHub repository
+     # above), see README section 8.5 for details and VIL_HOME_DASHBOARD_UID
+     # - VIL_HOME_DASHBOARD_TITLE=Battery
 
 volumes:
   influxdb-storage:
