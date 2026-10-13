@@ -93,12 +93,12 @@ EOF
 )
 
 echo "$LOG configuring Git Sync repository '$NAME' for $VIL_GITSYNC_GITHUB_URL ($BRANCH), waiting for Grafana at $BASE_URL"
-for _ in $(seq 1 60); do
+for _ in $(seq 1 150); do
   curl -sf -o /dev/null "$BASE_URL/api/health" && break
   sleep 2
 done
 if ! curl -sf -o /dev/null "$BASE_URL/api/health"; then
-  echo "$LOG Grafana not healthy after 120s, giving up"
+  echo "$LOG Grafana not healthy after 300s, giving up"
   exit 0
 fi
 
