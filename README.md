@@ -291,6 +291,16 @@ $ (cd docker && ./run-dev-image.sh)
 
 After that you can access the local Grafana instance via http://localhost:3000
 
+#### Build and push release docker images
+
+Releases are cut with `./release.sh` on `main`, which lets semantic-release update the changelog, create the version tag, and publish the GitHub release. With that tag checked out, `build-release-images.sh` builds the multi-platform image and pushes it as `OWNER/venus-grafana:X.Y.Z` and `OWNER/venus-grafana:X.Y`. When HEAD is not tagged, the image is pushed as `OWNER/venus-grafana:develop`. An explicit version argument overrides the detection.
+
+```
+$ export OWNER="martin"
+$ (cd docker && ./build-release-images.sh)          # tags inferred from git
+$ (cd docker && ./build-release-images.sh develop)  # explicit tag
+```
+
 ### 8.4 Adding New Dashboards
 
 New Grafana Dashboards that you create via Grafana Interface will be stored in a SQLite database inside the docker container in `/var/lib/grafana`. These modifications will get lost when the container is removed and recreated, unless you mount the `/var/lib/grafana` directory to a docker volume.
