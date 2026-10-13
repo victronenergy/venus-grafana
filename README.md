@@ -50,7 +50,7 @@ All of these can run separately, or together. Natively on a Mac, Windows, Raspbe
 
 1. Enable plaintext MQTT service on your Venus OS device by accessing the remote console and going to Settings -> Services.
 1. Download [Docker Desktop](https://www.docker.com/products/docker-desktop/) for your platform.
-1. Download the ready made [examples/docker-compose.yaml](./examples/docker-compose.yaml) file and use the `docker compose up` to start all containers (see below for more details).
+1. Download the ready made [examples/docker-compose.yaml](./examples/docker-compose.yaml) file and use the `docker compose up` to start all containers (see below for more details). It runs InfluxDB 1.x, the recommended database. [examples/docker-compose-influxdb2.yaml](./examples/docker-compose-influxdb2.yaml) and [examples/docker-compose-influxdb3.yaml](./examples/docker-compose-influxdb3.yaml) run InfluxDB 2.x and InfluxDB 3 Core instead, read the caveats at the top of the InfluxDB 3 file before using it.
 1. Open http://localhost:8088 in your browser and configure what Venus devices to monitor. Default username and password is `admin` `admin`.
 1. Open http://localhost:3000 in your browser to play with Grafana. Default username and password is `admin` `admin`.
 
@@ -115,12 +115,14 @@ volumes:
 
 ### 4.2 InfluxDB
 
-Creates Influx DB container exposing TCP port 8086 and storing database data in the docker volume `influxdb-storage`. This is where all the recorded measurements will be persisted. Note: InfluxDB is pinned at version 1.8. This is the latest (now unsupported) version that supports 32bit arm architectures (32bit Raspberry Pi).
+Creates Influx DB container exposing TCP port 8086 and storing database data in the docker volume `influxdb-storage`. This is where all the recorded measurements will be persisted. Note: InfluxDB is pinned at version 1.12, the current release of the still maintained 1.x line. Use `influxdb:1.8` on 32-bit Raspberry Pi OS, it is the last version with 32-bit ARM images. Never use `influxdb:latest`, it points to InfluxDB 3 Core since September 2026.
+
+Venus Influx Loader 1.9 and newer can also store into InfluxDB 2.x and InfluxDB 3, see [examples/docker-compose-influxdb2.yaml](./examples/docker-compose-influxdb2.yaml) and [examples/docker-compose-influxdb3.yaml](./examples/docker-compose-influxdb3.yaml). InfluxDB 3 Core is limited to 2000 tables, which most Venus installations exceed, and InfluxDB 3 does not survive power loss on local disk storage, so InfluxDB 1.x stays the recommended choice. The InfluxDB 3 example file describes the details.
 
 ```
 services:
   influxdb:
-    image: "influxdb:1.8"
+    image: "influxdb:1.12"
     ports:
      - "8086:8086"
     volumes:
@@ -313,7 +315,7 @@ To show a different dashboard on the home page set `VIL_HOME_DASHBOARD_TITLE` to
 
 ```yaml
   grafana:
-    image: "victronenergy/venus-grafana:1.8"
+    image: "victronenergy/venus-grafana:1.9"
     environment:
      - VIL_HOME_DASHBOARD_TITLE=Battery
 ```

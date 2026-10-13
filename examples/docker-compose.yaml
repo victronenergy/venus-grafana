@@ -1,19 +1,22 @@
 services:
   loader:
-    image: "victronenergy/venus-influx-loader:1.8"
+    image: "victronenergy/venus-influx-loader:1.9"
     command: [ "bin/venus-influx-loader", "--enable-discovery-api" ]
     ports:
      - "8088:8088"
     volumes:
      - "config-storage:/config"
   browser:
-    image: "victronenergy/venus-influx-loader:1.8"
+    image: "victronenergy/venus-influx-loader:1.9"
     command: [ "bin/venus-upnp-browser", "--discovery-api", "http://localhost:8088/discovery-api/" ]
     # `network_mode: host` is required for the `venus-upnp-browser` to access your host network
     # and audo discover Venus devices.
     network_mode: host
   influxdb:
-    image: "influxdb:1.8"
+    # never use `influxdb:latest`, it points to InfluxDB 3 Core since September 2026.
+    # `influxdb:1.8` is the last version with 32-bit ARM images, use it on 32-bit Raspberry Pi OS.
+    image: "influxdb:1.12"
+    # image: "influxdb:1.8"
     ports:
      - "8086:8086"
     volumes:
@@ -21,7 +24,7 @@ services:
     environment:
      - INFLUXDB_HTTP_LOG_ENABLED=false
   grafana:
-    image: "victronenergy/venus-grafana:1.8"
+    image: "victronenergy/venus-grafana:1.9"
     volumes:
      - "grafana-storage:/var/lib/grafana"
     ports:

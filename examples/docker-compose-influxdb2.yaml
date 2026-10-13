@@ -1,0 +1,79 @@
+# Venus Influx Loader + InfluxDB 2.x + Venus Grafana.
+#
+# Starts with `docker compose -f docker-compose-influxdb2.yaml up -d` and works without further setup:
+# InfluxDB 2 initializes itself from the DOCKER_INFLUXDB_INIT_* variables, the loader creates the `venus`
+# bucket and its retention, and Grafana queries the bucket via InfluxQL using the same token as password.
+#
+# One shared secret, the InfluxDB API token, is used by all three services. Override it (and the InfluxDB
+# admin password) via a `.env` file next to this compose file, for example:
+#   VIL_INFLUXDB_TOKEN=my-secret-token
+#   VIL_INFLUXDB_ADMIN_PASSWORD=my-admin-password
+#
+# Note: InfluxDB 2 has no 32-bit ARM images, use docker-compose.yaml (InfluxDB 1.x) on 32-bit Raspberry Pi OS.
+
+services:
+  loader:
+    # InfluxDB 2 support requires venus-influx-loader 1.9 or newer
+    image: "victronenergy/venus-influx-loader:1.9"
+    command: [ "bin/venus-influx-loader", "--enable-discovery-api" ]
+    ports:
+     - "8088:8088"
+    volumes:
+     - "config-storage:/config"
+    environment:
+     # used as defaults until config.json exists in config-storage, then change them in the Admin UI
+     - VIL_INFLUXDB_VERSION=2
+     - VIL_INFLUXDB_URL=http://influxdb:8086
+     - VIL_INFLUXDB_ORG=venus
+     - VIL_INFLUXDB_TOKEN=${VIL_INFLUXDB_TOKEN:-venus-influx-loader-token}
+  browser:
+    image: "victronenergy/venus-influx-loader:1.9"
+    command: [ "bin/venus-upnp-browser", "--discovery-api", "http://localhost:8088/discovery-api/" ]
+    # `network_mode: host` is required for the `venus-upnp-browser` to access your host network
+    # and audo discover Venus devices.
+    network_mode: host
+  influxdb:
+    image: "influxdb:2.9"
+    ports:
+     - "8086:8086"
+    volumes:
+     - "influxdb-storage:/var/lib/influxdb2"
+    environment:
+     # one-time automated setup, ignored once influxdb-storage is initialized
+     - DOCKER_INFLUXDB_INIT_MODE=setup
+     - DOCKER_INFLUXDB_INIT_ORG=venus
+     - DOCKER_INFLUXDB_INIT_BUCKET=venus
+     - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=${VIL_INFLUXDB_TOKEN:-venus-influx-loader-token}
+     # login for the InfluxDB web UI at http://localhost:8086, password must be at least 8 characters
+     - DOCKER_INFLUXDB_INIT_USERNAME=admin
+     - DOCKER_INFLUXDB_INIT_PASSWORD=${VIL_INFLUXDB_ADMIN_PASSWORD:-venusvenus}
+  grafana:
+    image: "victronenergy/venus-grafana:1.9"
+    volumes:
+     - "grafana-storage:/var/lib/grafana"
+    ports:
+     - "3000:3000"
+    environment:
+     - VIL_INFLUXDB_URL=http://influxdb:8086
+     # InfluxDB 2 accepts the API token as basic auth password on its InfluxQL endpoint, the username is ignored
+     - VIL_INFLUXDB_USERNAME=venus
+     - VIL_INFLUXDB_PASSWORD=${VIL_INFLUXDB_TOKEN:-venus-influx-loader-token}
+     - VIL_GRAFANA_API_URL=http://loader:8088/grafana-api
+     # specify URL that should be listed on Welcome dashboard
+     # to acess Venus Influx Loader Admin UI
+     - VIL_PUBLIC_URL=http://localhost:8088/
+     # optionally sync dashboards from your own GitHub repository via Grafana Git Sync,
+     # see README section 8.6 for details and the remaining VIL_GITSYNC_* variables
+     # - VIL_GITSYNC_GITHUB_URL=https://github.com/me/my-dashboards
+     # - VIL_GITSYNC_GITHUB_TOKEN=github_pat_xxx
+     # - VIL_GITSYNC_GITHUB_BRANCH=main
+     # - VIL_GITSYNC_GITHUB_PATH=grafana/
+     # optionally choose the dashboard shown on the Grafana home page by its title
+     # (a shipped one like `Battery`, or one synced from your GitHub repository
+     # above), see README section 8.5 for details and VIL_HOME_DASHBOARD_UID
+     # - VIL_HOME_DASHBOARD_TITLE=Battery
+
+volumes:
+  influxdb-storage:
+  grafana-storage:
+  config-storage:

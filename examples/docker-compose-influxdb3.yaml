@@ -1,0 +1,100 @@
+# Venus Influx Loader + InfluxDB 3 Core + Venus Grafana.
+#
+# Starts with `docker compose -f docker-compose-influxdb3.yaml up -d` and works without further setup.
+# InfluxDB 3 Core runs without authentication here, in the same way docker-compose.yaml runs InfluxDB 1.x,
+# because InfluxDB 3 has no way to preset a token from the environment. The loader creates the `venus`
+# database with the configured retention on first connection, Grafana queries it via InfluxQL.
+#
+# To enable authentication instead: generate an offline admin token file with
+#   docker run --rm influxdb:3-core influxdb3 create token --admin --offline --output-file /dev/stdout
+# mount it into the influxdb container, replace INFLUXDB3_WITHOUT_AUTH with INFLUXDB3_ADMIN_TOKEN_FILE,
+# and set VIL_INFLUXDB_TOKEN to the token value, for example in a `.env` file next to this compose file.
+#
+# Read this before choosing InfluxDB 3, docker-compose.yaml (InfluxDB 1.x) remains the recommended setup:
+#
+# - InfluxDB 3 Core allows at most 2000 tables in total, and this can not be raised. The loader stores every
+#   Venus path as its own measurement, which InfluxDB 3 maps to a table, and a single GX device with a few
+#   connected devices produces more than 2000 paths. Once the limit is reached every write containing a new
+#   path is rejected and that data is lost. InfluxDB 3 Enterprise raises the limit to 10000 and makes it
+#   configurable via --num-table-limit, it needs a license.
+# - InfluxDB 3 does not survive power loss or any other unclean shutdown when its data is on a local disk
+#   (the `file` object store used below): data files are written without fsync, empty WAL, snapshot, and
+#   parquet files are left behind, and InfluxDB 3 refuses to start until the influxdb-storage volume is
+#   deleted. This applies to Core and Enterprise alike, see https://github.com/influxdata/influxdb/issues/26970
+#   and https://github.com/influxdata/influxdb/issues/27654. InfluxDB 1.x and 2.x recover from the same event.
+#   For anything beyond experiments use an S3 compatible object store, or a host with a UPS and backups.
+# - queries spanning more than about 72 hours are refused by default, so dashboards with longer ranges fail.
+#   Raise INFLUXDB3_QUERY_FILE_LIMIT below at the cost of memory, or use InfluxDB 3 Enterprise.
+# - the retention period is applied only when the database is created, it can not be changed afterwards.
+# - no 32-bit ARM images, use docker-compose.yaml (InfluxDB 1.x) on 32-bit Raspberry Pi OS.
+# - Raspberry Pi 5: InfluxDB 3 fails with "<jemalloc>: Unsupported system page size" on the default
+#   16 KB page size kernel (https://github.com/influxdata/influxdb/issues/26066). Switch to the 4 KB
+#   kernel by adding `kernel=kernel8.img` to /boot/firmware/config.txt and rebooting, `getconf PAGESIZE`
+#   must then print 4096.
+
+services:
+  loader:
+    # InfluxDB 3 support requires venus-influx-loader 1.9 or newer
+    image: "victronenergy/venus-influx-loader:1.9"
+    command: [ "bin/venus-influx-loader", "--enable-discovery-api" ]
+    ports:
+     - "8088:8088"
+    volumes:
+     - "config-storage:/config"
+    environment:
+     # used as defaults until config.json exists in config-storage, then change them in the Admin UI
+     - VIL_INFLUXDB_VERSION=3
+     - VIL_INFLUXDB_URL=http://influxdb:8181
+     # empty without authentication, see above
+     - VIL_INFLUXDB_TOKEN=${VIL_INFLUXDB_TOKEN:-}
+  browser:
+    image: "victronenergy/venus-influx-loader:1.9"
+    command: [ "bin/venus-upnp-browser", "--discovery-api", "http://localhost:8088/discovery-api/" ]
+    # `network_mode: host` is required for the `venus-upnp-browser` to access your host network
+    # and audo discover Venus devices.
+    network_mode: host
+  influxdb:
+    # never use `influxdb:latest`, pin the major version
+    image: "influxdb:3-core"
+    ports:
+     - "8181:8181"
+    volumes:
+     - "influxdb-storage:/var/lib/influxdb3"
+    environment:
+     - INFLUXDB3_NODE_ID=node0
+     - INFLUXDB3_OBJECT_STORE=file
+     - INFLUXDB3_DATA_DIR=/var/lib/influxdb3
+     - INFLUXDB3_WITHOUT_AUTH=true
+     # default 432 files = about 72 hours of data per query, see caveats above
+     # - INFLUXDB3_QUERY_FILE_LIMIT=4320
+  grafana:
+    image: "victronenergy/venus-grafana:1.9"
+    volumes:
+     - "grafana-storage:/var/lib/grafana"
+    ports:
+     - "3000:3000"
+    environment:
+     - VIL_INFLUXDB_URL=http://influxdb:8181
+     # InfluxDB 3 ignores the username and takes the token as basic auth password. Without authentication
+     # any non-empty password works, an empty one is rejected, so keep a placeholder here.
+     - VIL_INFLUXDB_USERNAME=venus
+     - VIL_INFLUXDB_PASSWORD=${VIL_INFLUXDB_TOKEN:-none}
+     - VIL_GRAFANA_API_URL=http://loader:8088/grafana-api
+     # specify URL that should be listed on Welcome dashboard
+     # to acess Venus Influx Loader Admin UI
+     - VIL_PUBLIC_URL=http://localhost:8088/
+     # optionally sync dashboards from your own GitHub repository via Grafana Git Sync,
+     # see README section 8.6 for details and the remaining VIL_GITSYNC_* variables
+     # - VIL_GITSYNC_GITHUB_URL=https://github.com/me/my-dashboards
+     # - VIL_GITSYNC_GITHUB_TOKEN=github_pat_xxx
+     # - VIL_GITSYNC_GITHUB_BRANCH=main
+     # - VIL_GITSYNC_GITHUB_PATH=grafana/
+     # optionally choose the dashboard shown on the Grafana home page by its title
+     # (a shipped one like `Battery`, or one synced from your GitHub repository
+     # above), see README section 8.5 for details and VIL_HOME_DASHBOARD_UID
+     # - VIL_HOME_DASHBOARD_TITLE=Battery
+
+volumes:
+  influxdb-storage:
+  grafana-storage:
+  config-storage:
