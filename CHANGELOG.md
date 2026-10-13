@@ -1,3 +1,24 @@
+# [1.9.0](https://github.com/victronenergy/venus-grafana/compare/1.8.1...1.9.0) (2026-10-13)
+
+
+### Bug Fixes
+
+* infer the docker image tag from git, SemVer and major.minor on a tag, develop otherwise ([a69b7c4](https://github.com/victronenergy/venus-grafana/commit/a69b7c4fffbb42392a8c32ad43fba57c5e1a53f4))
+* update grafana docker image from 13.2.0 to 13.2.1 ([f10ee8a](https://github.com/victronenergy/venus-grafana/commit/f10ee8a29bd32664d793314bb15d25ab0c2039f9))
+* update grafana docker image from 13.2.1 to 13.2.2 ([136472d](https://github.com/victronenergy/venus-grafana/commit/136472d61512912011f730ff809b8e7633c89552))
+* update grafana docker image from 13.2.2 to 13.2.3 ([c3f70d1](https://github.com/victronenergy/venus-grafana/commit/c3f70d108a47c0913219e3e85db02f81e9cbaf1a))
+* update grafana docker image from 13.2.3 to 13.2.4 ([6a90a33](https://github.com/victronenergy/venus-grafana/commit/6a90a3322f8f1d6b57d35a1015cb04c750c8ed2a))
+* update simpod-json-datasource plugin from 0.6.3 to 0.6.7 ([942f517](https://github.com/victronenergy/venus-grafana/commit/942f517e293cccd5b46b166f56846131d323e972))
+* venus-devices dashboard column override for Last Measurement Timestamp ([4bb5ca9](https://github.com/victronenergy/venus-grafana/commit/4bb5ca913a84fc0c897ed716bd99aa3b8bb188c3))
+* wait up to 300s for Grafana in bootstrap scripts, slow hosts need more than 120s to start ([25fa9a3](https://github.com/victronenergy/venus-grafana/commit/25fa9a3dfe4b738103b6ea9b66e64485f124d271))
+
+
+### Features
+
+* add InfluxDB 2 and 3 compose examples, bump examples to venus-influx-loader and venus-grafana 1.9 and influxdb 1.12 ([2a57451](https://github.com/victronenergy/venus-grafana/commit/2a574517dd87738cd5fe9116504690a00e6090e3))
+* configure Grafana Git Sync from VIL_GITSYNC_* environment variables ([4259b77](https://github.com/victronenergy/venus-grafana/commit/4259b77e32b497b174b3d98fcca70b32f6bf2ec9))
+* configure Grafana home dashboard via VIL_HOME_DASHBOARD_TITLE ([#43](https://github.com/victronenergy/venus-grafana/issues/43)) ([064cde5](https://github.com/victronenergy/venus-grafana/commit/064cde574e41bce07fabbe428c74f8528cd6876a))
+
 ## [1.8.1](https://github.com/victronenergy/venus-grafana/compare/1.8.0...1.8.1) (2026-08-21)
 
 
