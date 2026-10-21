@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/victronenergy/venus-grafana/compare/1.9.0...1.10.0) (2026-10-21)
+
+
+### Features
+
+* bump examples to venus-influx-loader and venus-grafana 1.10 ([f1746a5](https://github.com/victronenergy/venus-grafana/commit/f1746a5fbe8e7fe62070a3b0b1d18f9f0af4b36a))
+
 # [1.9.0](https://github.com/victronenergy/venus-grafana/compare/1.8.1...1.9.0) (2026-10-13)
 
 
