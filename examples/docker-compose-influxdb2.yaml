@@ -14,7 +14,7 @@
 services:
   loader:
     # InfluxDB 2 support requires venus-influx-loader 1.9 or newer
-    image: "victronenergy/venus-influx-loader:1.9"
+    image: "victronenergy/venus-influx-loader:1.10"
     command: [ "bin/venus-influx-loader", "--enable-discovery-api" ]
     ports:
      - "8088:8088"
@@ -27,7 +27,7 @@ services:
      - VIL_INFLUXDB_ORG=venus
      - VIL_INFLUXDB_TOKEN=${VIL_INFLUXDB_TOKEN:-venus-influx-loader-token}
   browser:
-    image: "victronenergy/venus-influx-loader:1.9"
+    image: "victronenergy/venus-influx-loader:1.10"
     command: [ "bin/venus-upnp-browser", "--discovery-api", "http://localhost:8088/discovery-api/" ]
     # `network_mode: host` is required for the `venus-upnp-browser` to access your host network
     # and audo discover Venus devices.
@@ -48,7 +48,7 @@ services:
      - DOCKER_INFLUXDB_INIT_USERNAME=admin
      - DOCKER_INFLUXDB_INIT_PASSWORD=${VIL_INFLUXDB_ADMIN_PASSWORD:-venusvenus}
   grafana:
-    image: "victronenergy/venus-grafana:1.9"
+    image: "victronenergy/venus-grafana:1.10"
     volumes:
      - "grafana-storage:/var/lib/grafana"
     ports:
