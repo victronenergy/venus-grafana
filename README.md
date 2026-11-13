@@ -32,6 +32,10 @@ Getting Started with Victron & Grafana - [Part 1](https://www.youtube.com/watch?
 
 [![](http://img.youtube.com/vi/B-sGH0etieM/0.jpg)](http://www.youtube.com/watch?v=B-sGH0etieM "Getting Started with Victron & Grafana Dashboard - Part 2")
 
+The [Grafana & Venus OS Webinar: Turn your Victron data into actionable insights](https://vimeo.com/1198396342/df2225feee) hosted by Victron Energy is a more recent and in depth walkthrough:
+
+[![](https://i.vimeocdn.com/filter/overlay?src0=https%3A%2F%2Fi.vimeocdn.com%2Fvideo%2F2164976427-476971228304cd029ad958854ef67ba2d32a7f536a9ca540b4172bd164d7475a-d_640x360&src1=http%3A%2F%2Ff.vimeocdn.com%2Fp%2Fimages%2Fcrawler_play.png)](https://vimeo.com/1198396342/df2225feee "Grafana & Venus OS Webinar: Turn your Victron data into actionable insights with Grafana & Venus OS")
+
 ## 2. Requirements
 
 1. A Victron Energy system including a [Victron GX Device](https://www.victronenergy.com/live/venus-os:start).
