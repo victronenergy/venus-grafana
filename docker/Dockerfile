@@ -1,4 +1,4 @@
-FROM grafana/grafana:13.3.1
+FROM grafana/grafana:13.3.2
 
 # Grafana 13.3.0 dropped `bash` from its Alpine base image, but our entrypoint
 # and bootstrap scripts rely on it.
